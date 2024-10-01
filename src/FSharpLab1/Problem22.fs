@@ -20,7 +20,7 @@ let nameScore (name: string) =
 
 let modal sortedEnumeratedNames =
     sortedEnumeratedNames
-    |> Seq.fold (fun (acc: int) (idx, name) -> acc + idx * nameScore name) 0
+    |> Seq.fold (fun acc (idx, name) -> acc + idx * nameScore name) 0
 
 let recursive sortedEnumeratedNames =
     let rec solution names =
