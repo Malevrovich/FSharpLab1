@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Problem22.fs" />
     <Compile Include="Problem9.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
