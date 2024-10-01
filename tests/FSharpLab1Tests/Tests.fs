@@ -19,4 +19,4 @@ let ``Check Problem 22`` () =
     |> List.iter (fun solution ->
         let sortedEnumeratedNames = (Problem22.getSortedEnumeratedNames Problem22.namesPath)
         let res: int = solution sortedEnumeratedNames
-        Assert.Equal res 871198282)
+        Assert.Equal(res, 871198282))
