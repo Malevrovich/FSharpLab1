@@ -130,3 +130,16 @@ let modal sortedEnumeratedNames =
     sortedEnumeratedNames
     |> Seq.fold (fun (acc: int) (idx, name) -> acc + idx * nameScore name) 0
 ```
+4. Результаты в тесте:
+```f#
+// in Problem22.fs
+let solutions = [ modal; recursive; tailRecursive ]
+
+[<Fact>]
+let ``Check Problem 22`` () =
+    Problem22.solutions
+    |> List.iter (fun solution ->
+        let sortedEnumeratedNames = (Problem22.getSortedEnumeratedNames Problem22.namesPath)
+        let res: int = solution sortedEnumeratedNames
+        Assert.Equal(res, 871198282))
+```
