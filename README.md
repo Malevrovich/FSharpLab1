@@ -80,3 +80,53 @@ let ``Check Problem 9`` () =
         let res: int = solution ()
         Assert.Equal(res, 31875000))
 ```
+
+# Problem 22 Solutions
+Парсинг:
+```f#
+let namesPath =
+    Path.Combine(__SOURCE_DIRECTORY__, "..", "..", "resources", "0022_names.txt")
+
+let parseLine (line: string) =
+    line.Split(',') |> Array.map (fun line -> line.Trim('"'))
+
+let getNames path =
+    let data = File.ReadLines path
+    data |> Seq.collect parseLine
+```
+Сортировка + нумеровка:
+```f#
+let getSortedEnumeratedNames path =
+    getNames path |> Seq.sort |> Seq.mapi (fun i name -> (i + 1, name))
+```
+Подсчет очков имени без учета индекса:
+```f#
+let nameScore (name: string) =
+    name.ToLower() |> Seq.fold (fun acc char -> acc + (int char - int 'a' + 1)) 0
+```
+1. Обычная рекурсия с pattern-matching:
+```f#
+let recursive sortedEnumeratedNames =
+    let rec solution names =
+        match names with
+        | [] -> 0
+        | (idx, name) :: tail -> idx * nameScore name + solution tail
+
+    sortedEnumeratedNames |> Seq.toList |> solution
+```
+2. Хвостовая рекурсия так же с pattern-matching:
+```f#
+let tailRecursive sortedEnumeratedNames =
+    let rec solution acc names =
+        match names with
+        | [] -> acc
+        | (idx, name) :: tail -> solution (acc + idx * nameScore name) tail
+
+    sortedEnumeratedNames |> Seq.toList |> solution 0
+```
+3. Модульное + ленивое:
+```f#
+let modal sortedEnumeratedNames =
+    sortedEnumeratedNames
+    |> Seq.fold (fun (acc: int) (idx, name) -> acc + idx * nameScore name) 0
+```
